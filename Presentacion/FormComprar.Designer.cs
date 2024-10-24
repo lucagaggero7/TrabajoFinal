@@ -314,6 +314,7 @@
             this.listResumen.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.listResumen.Size = new System.Drawing.Size(332, 70);
             this.listResumen.TabIndex = 57;
+            this.listResumen.SelectedIndexChanged += new System.EventHandler(this.listResumen_SelectedIndexChanged);
             // 
             // panel1
             // 

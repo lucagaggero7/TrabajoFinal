@@ -245,10 +245,7 @@ namespace Presentacion
                 timerCarga.Stop(); 
 
                 //Al detenerse el timer ejecuta la compra y muestra el form de finalizacion               
-                FormFin frm7 = new FormFin();
-                this.AddOwnedForm(frm7);
-                frm7.Show();
-                this.Hide();
+                
 
                 accion = "Comprar";
                 TxtBox_a_Clase(accion);
@@ -293,7 +290,35 @@ namespace Presentacion
 
                 nComprados = objNegCompras.Compra("Comprar", idUsuario, listaProductos);
 
-                
+                DataTable nuevaDataTable = new DataTable();
+                nuevaDataTable.Columns.Add("Nombre");
+                nuevaDataTable.Columns.Add("Marca");
+                nuevaDataTable.Columns.Add("Categoria");
+                nuevaDataTable.Columns.Add("Precio");
+
+                // Recorrer las filas del DataGridView
+                foreach (DataGridViewRow row in ((FormCarrito)Owner).datagridCarrito.Rows)
+                {
+                    // Obtener los valores de las celdas
+                    string nombre = row.Cells["Nombre"].Value?.ToString() ?? string.Empty;
+                    string marca = row.Cells["Marca"].Value?.ToString() ?? string.Empty;
+                    string categoria = row.Cells["Categoria"].Value?.ToString() ?? string.Empty;
+                    string precio = row.Cells["Precio"].Value?.ToString() ?? string.Empty;
+
+                    // Crear una nueva fila en la DataTable
+                    DataRow nuevaFila = nuevaDataTable.NewRow();
+                    nuevaFila["Nombre"] = nombre;
+                    nuevaFila["Marca"] = marca;
+                    nuevaFila["Categoria"] = categoria;
+                    nuevaFila["Precio"] = precio;
+
+                    // Añadir la nueva fila a la DataTable
+                    nuevaDataTable.Rows.Add(nuevaFila);
+                }
+                FormFin frm7 = new FormFin(nuevaDataTable);
+                this.AddOwnedForm(frm7);
+                frm7.Show();
+                this.Hide();
             }
         }
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -660,6 +685,11 @@ namespace Presentacion
             {
                 e.Handled = true; // Rechaza el carácter
             }
+        }
+
+        private void listResumen_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
