@@ -12,7 +12,7 @@ namespace Datos
     {
         public OleDbConnection conexion;
 
-        public string cadenaConexion = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Bases de Datos\TiendaOnlineBD.accdb;Persist Security Info=True";
+        public string cadenaConexion = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Bases de Datos\TrabajoFinalBD.accdb";
 
         public DatosConexionBD()
         {

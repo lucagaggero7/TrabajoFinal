@@ -1,30 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data;
 using System.Data.OleDb;
 using Entidades;
-using System.Security.Cryptography;
 
 namespace Datos
 {
     public class DatosUsuarios : DatosConexionBD
     {
-       
         public int Compra(string accion, Usuario objUsuario, string listaProductos)
         {
-
-            int realizada;
-
+            int usuarioId = 0;
             string orden = string.Empty;
 
+            // Define el comando INSERT para agregar el usuario
             if (accion == "Comprar")
-                orden = "INSERT INTO Compras (Nombre, Direccion, Provincia, Localidad, CodigoPostal, Telefono, Dni, Carrito) " +
-                         "VALUES (@Nombre, @Direccion, @Provincia, @Localidad, @CodPostal, @Telefono, @Dni, @Productos)";
+            {
+                orden = "INSERT INTO Usuarios (Nombre, Direccion, Provincia, Localidad, CodigoPostal, Telefono, Dni) " +
+                        "VALUES (@Nombre, @Direccion, @Provincia, @Localidad, @CodPostal, @Telefono, @Dni)";
+            }
 
-
+            // Crear el comando OleDb
             OleDbCommand cmd = new OleDbCommand(orden, conexion);
             cmd.Parameters.AddWithValue("@Nombre", objUsuario.Nombre);
             cmd.Parameters.AddWithValue("@Direccion", objUsuario.Direccion);
@@ -33,27 +28,30 @@ namespace Datos
             cmd.Parameters.AddWithValue("@CodPostal", objUsuario.CodPostal);
             cmd.Parameters.AddWithValue("@Telefono", objUsuario.Telefono);
             cmd.Parameters.AddWithValue("@Dni", objUsuario.Dni);
-            cmd.Parameters.AddWithValue("@Productos", listaProductos);
-
 
             try
             {
+                // Abre la conexión y ejecuta el INSERT
                 Abrirconexion();
-                realizada = cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+
+                // Ejecutar una segunda consulta para obtener el ID generado
+                cmd.CommandText = "SELECT @@IDENTITY";
+                usuarioId = (int)cmd.ExecuteScalar(); // Obtiene el ID autonumérico generado
             }
             catch (Exception e)
             {
-                throw new Exception("Errror al tratar de guardar,borrar o modificar de Productos", e);
+                throw new Exception("Error al tratar de guardar el usuario.", e);
             }
             finally
             {
+                // Cierra la conexión y libera recursos
                 Cerrarconexion();
                 cmd.Dispose();
             }
-            return realizada;
-        }
 
+            // Retorna el ID del usuario recién creado para usarlo en otras operaciones
+            return usuarioId;
+        }
     }
 }
-  
-

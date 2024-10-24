@@ -12,9 +12,11 @@ namespace Negocios
     public class NegUsuarios
     {
         DatosUsuarios objDatosUsuarios = new DatosUsuarios();
-        public int Compra(string accion, Usuario objUsuario, string listaProuductos)
+
+        public int Usuario(string accion, Usuario objUsuario, string listaProuductos)
         {
             return objDatosUsuarios.Compra(accion, objUsuario, listaProuductos);
         }
+
     }
 }

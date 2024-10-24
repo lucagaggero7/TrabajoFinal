@@ -35,6 +35,8 @@ namespace Presentacion
 
         public NegUsuarios objNegUsuarios = new NegUsuarios();
 
+        public NegCompras objNegCompras = new NegCompras();
+
         public FormComprar()
         {
             InitializeComponent();
@@ -251,6 +253,7 @@ namespace Presentacion
                 accion = "Comprar";
                 TxtBox_a_Clase(accion);
 
+                int idUsuario = 0;
                 int nComprados = -1;
 
                 // Diccionario para rastrear las repeticiones
@@ -286,7 +289,11 @@ namespace Presentacion
                 string listaProductos = string.Join(", ", listaProductosRepetidos);
 
                 // Ejecuta el método que carga los datos de compra en la base de datos
-                nComprados = objNegUsuarios.Compra("Comprar", objEntUsuario, listaProductos);
+                idUsuario = objNegUsuarios.Usuario("Comprar", objEntUsuario, listaProductos);
+
+                nComprados = objNegCompras.Compra("Comprar", idUsuario, listaProductos);
+
+                
             }
         }
         private void btnCancelar_Click(object sender, EventArgs e)
