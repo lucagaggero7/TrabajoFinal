@@ -118,6 +118,7 @@ namespace Presentacion
                         table.AddCell(precio.ToString("C")); // Formato de moneda
                         total += precio; // Sumar al total
                     }
+                    ///
                 }
                 else
                 {
